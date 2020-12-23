@@ -1,0 +1,14 @@
+from common.client import CommonClient as common_client
+from utils.logger import Logger
+import common.config as cfg
+
+logger = Logger("Client")
+
+class Client(common_client):
+    def __init__(self):
+        super().__init__()
+        self.db_connection = db.connect(cfg.server_ip, cfg.username, cfg.password, cfg.port)
+    
+    def main(self):
+        super().main()
+        logger.info("Client Main")
