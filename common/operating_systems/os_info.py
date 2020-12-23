@@ -1,7 +1,7 @@
 import subprocess
 import platform
 
-class os_info:
+class OS_Info:
     name = ""
     arch = ""
     version = ""
@@ -14,27 +14,30 @@ class os_info:
     def update(self):
         self.execute_command("")
 
-class win_os_info(os_info):
+    def __to_json__(self) -> dict:
+        return {"name":self.name, "version":self.version, "arch":self.arch}
+
+class win_os_info(OS_Info):
     def update(self):
         self.execute_command("wuauclt.exe /detectnow /updatenow")
 
-class mac_os_info(os_info):
+class mac_os_info(OS_Info):
     def update(self):
         self.execute_command("")
 
-class debian_os_info(os_info):
+class debian_os_info(OS_Info):
     def update(self):
         self.execute_command("sudo apt update && sudo apt upgrade")
 
-class arch_os_info(os_info):
+class arch_os_info(OS_Info):
     def update(self):
         self.execute_command("sudo pacman -Syyu")
 
-class fedora_os_info(os_info):
+class fedora_os_info(OS_Info):
     def update(self):
         self.execute_command("sudo dnf upgrade --refresh")
 
-def os_info_builder() -> os_info:
+def os_info_builder() -> OS_Info:
     arch = platform.architecture()[0]
     if arch == "64bit":
         arch = "x64"

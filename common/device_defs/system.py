@@ -1,14 +1,15 @@
-import common.operating_systems.os_info
-import ipaddress
+from common.operating_systems.os_info import OS_Info as OI
 import socket
 
 class System:
-    os_info = ""
+    os_info: OI = OI("","","")
     hostname = ""
+    custom_name = ""
     ip_address = ""
+    mac_address = ""
     
-    def __init__(self, os_info, hostname=get_hostname(os_info), ip_address=get_ip()):
-        self.os_info = os_info
+    def __init__(self, oi: OI, hostname=get_hostname(os_info), ip_address=get_ip()):
+        self.os_info = oi
         self.hostname = hostname
         self.ip_address = ip_address
     
@@ -21,6 +22,15 @@ class System:
 
     def get_hostname(self, os_info):
         return os_info.execute_command("hostname")
+
+    def get_display_name(self) -> str:
+        if self.custom_name == "":
+            return self.hostname
+        else:
+            return self.custom_name
+    
+    def __to_json__(self) -> dict:
+        return {"os_info":self.os_info.__to_json__(), }
 
     def __str__(self):
         return f"common.system.System({self.os_info.__str__()}, {self.hostname}, {self.ip_address})"
