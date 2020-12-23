@@ -1,3 +1,7 @@
+class MysqlBackend(Backend):
+    def __init__(self):
+        print("DO NOT USE!")
+
 def connect_central_management() -> connection.MySQLConnection:
     return connection.MySQLConnection(user = "root", password = 'Password01!',
      host = '127.0.0.1', database = 'central_management')

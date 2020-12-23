@@ -59,5 +59,7 @@ def os_info_builder() -> OS_Info:
         elif dnf_result == 0:
             return fedora_os_info(f"{platform.system()} {platform.release()}", platform.version(), arch)
     else:
-        return os_info(f"{platform.system()} {platform.release()}", platform.version(), arch)
+        return OS_Info(f"{platform.system()} {platform.release()}", platform.version(), arch)
 
+def construct_from_json(backend_json: dict) -> OS_Info:
+    return OS_Info(backend_json["name"], backend_json["version"], backend_json["arch"])
