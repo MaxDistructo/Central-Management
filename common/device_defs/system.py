@@ -8,6 +8,7 @@ class System:
     custom_name = ""
     ip_address = ""
     mac_address = ""
+    last_logged_in = ""
     enabled = True
     
     def __init__(self, oi: OI, hostname=get_hostname(os_info), ip_address=get_ip(), custom_name="", mac_address="00:00:00:00:00:00", enabled=True):
