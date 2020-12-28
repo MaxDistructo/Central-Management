@@ -41,7 +41,6 @@ class Database:
     def exit(self):
         self.backend.save_state()
 
-
 def get_database(type: str) -> Database:
     if type == "json":
         return Database(JSONBackend())
@@ -50,3 +49,4 @@ def get_database(type: str) -> Database:
     else:
         logger.critical("Invalid Database Type specified!")
         exit()
+    
