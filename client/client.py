@@ -3,6 +3,7 @@ from utils.logger import Logger
 import common.config as cfg
 
 logger = Logger("Client")
+threads = list()
 
 class Client(common_client):
     def __init__(self):

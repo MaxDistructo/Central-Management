@@ -5,10 +5,16 @@ from utils.logger import Logger
 from server.start import ServerClient as server_start
 from client.client import Client as client_start
 from common.client import CommonClient
+import logging.log as log
+import server.server
+import client.client
+import atexit
 
 side = ""
 db: Database = None
 client: CommonClient = None
+
+atexit.register(exit)
 
 def main():
     logger = Logger("CentralManagement")
@@ -25,4 +31,9 @@ if __name__ == "__main__":
     main()
 
 def exit():
-    db.exit()
+    for thread in client.threads:
+        thread.join()
+        if client is server_start:
+            client.exit()
+    for thread in log.threads:
+        thread.join()

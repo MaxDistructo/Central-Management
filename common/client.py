@@ -1,7 +1,7 @@
-import common.db
 from utils.logger import Logger
 
 logger = Logger("Client")
+threads = list()
 
 class CommonClient:
     db_connection = ""

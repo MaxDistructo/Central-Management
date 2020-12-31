@@ -28,3 +28,7 @@ class ServerClient(common_client):
         
         #Connect to our own DB Server to finish the chain of command
         self.db_connection.connect()
+    
+    def exit(self):
+        # Pass through that we are exiting to the db_server so that the accept threads stop taking requests.
+        self.db_server.state = 1
