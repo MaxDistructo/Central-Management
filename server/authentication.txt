@@ -1,0 +1,11 @@
+Authentication Method
+
+Initialize PubKey Transaction
+- Client (Request: PubKey, Data: ClientPubKey)
+- Server (Response: ServerPubKey)
+- Client (Request: Auth, Data: User,Pass, Encryption:ServerPubKey)
+- Server (Response: Accept/Deny, Data(on accept): SessionPubKey, Encryption:ClientPubKey)
+
+All other Requests
+
+- Client (Request: Encrypted, Data: (Request: Type, Data: Data, Encryption: SessionPub), Encryption: ClientPub)

@@ -1,6 +1,7 @@
 from common.client import CommonClient as common_client
+from common.client import DB_Connection
 from utils.logger import Logger
-from server.server import DB_Connection, DB_Server
+from server.server import DB_Server
 import common.config as cfg
 
 logger = Logger("Server")
@@ -9,6 +10,7 @@ db = None
 
 class ServerClient(common_client):
     db_server = None
+
     def __init__(self):
         super().__init__()
         

@@ -1,5 +1,5 @@
 mysql-connector-python
-colorama
-requests
+colorama~=0.4.4
+requests~=2.25.1
 manuf
-telnetsrv
+pycryptodome

@@ -1,23 +1,27 @@
 import json
 
 from utils.logger import Logger
-from common.database.backend import Backend
+from server.database import Backend
 from common.device_defs.system import System
 from common.device_defs.device import Device
-from common.operating_systems.os_info import OS_Info
 from common.device_defs.system import construct_from_json as system_json_construct
 from common.device_defs.device import construct_from_json as device_json_construct
 
+
 class JSONBackend(Backend):
-    json = {}
-    def __init__(self, input_file=read_state()):
+    json = dict()
+
+    def __init__(self, input_file=""):
         self.logger = Logger("JSONBackend")
         self.logger.info("Initializing JSONBackend")
         self.json = input_file
         self.file_path = "db/database.json"
+        self.json = input_file
+        if input_file == "":
+            self.read_state()
 
     def query_computer(self, query: str) -> list:
-        matching = []
+        matching = list()
         for pc in self.json:
             if pc["type"] == "system":
                 sys = system_json_construct(self.json[pc])
@@ -32,37 +36,37 @@ class JSONBackend(Backend):
             elif pc["type"] == "device":
                 dev = device_json_construct(self.json[pc])
                 if dev.mac_address.__contains__(query):
-                    matching + dev
+                    matching.append(dev)
                 if dev.custom_name.__contains__(query):
-                    matching + dev
+                    matching.append(dev)
                 if dev.hostname.__contains__(query):
-                    matching + dev
+                    matching.append(dev)
                 if dev.ip_address.__contains__(query):
-                    matching + dev
+                    matching.append(dev)
         return matching
 
     def add_computer(self, system: System) -> bool:
         self.json[system.mac_address] = {system.__to_json__()}
-    
+
     def remove_computer(self, system: System) -> bool:
         system.disable()
         self.json[system.mac_address] = {system.__to_json__()}
-    
+
     def add_device(self, device: Device) -> bool:
         self.json[device.mac_address] = {device.__to_json__()}
-    
+
     def remove_device(self, device: Device) -> bool:
         device.disable()
         self.json[device.mac_address] = {device.__to_json__()}
-    
-    def save_state(self, file=super.get_file_path()):
-        db = open(file,'w')
+
+    def save_state(self, file=super().get_file_path()):
+        db = open(file, 'w')
         db.write(json.dumps(self.json))
         db.close()
 
-    def read_state(self, file=super.get_file_path()):
+    def read_state(self, file=super().get_file_path()):
         try:
-            db = open(file,"r")
+            db = open(file, "r")
             self.logger.info("Successfully loaded Database")
             self.json = json.loads(db.readlines())
             db.close()

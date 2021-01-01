@@ -1,39 +1,39 @@
-from common.operating_systems import *
-from common.database.db import Database
-from common.database.db import get_database
 from utils.logger import Logger
-from server.start import ServerClient as server_start
-from client.client import Client as client_start
-from common.client import CommonClient
+from common.client import CommonClient, DB_Connection
 import logging.log as log
-import server.server
-import client.client
 import atexit
+import common.config as cfg
 
-side = ""
-db: Database = None
+# Deal with Siding imports
+side = cfg.side
+if side == "server":
+    from server.start import ServerClient as Client
+elif side == "client":
+    from client.client import Client
+
+db: DB_Connection = None
 client: CommonClient = None
-
 atexit.register(exit)
 
+
 def main():
+    global client
+    global db
     logger = Logger("CentralManagement")
     logger.info("Starting CentralManagement")
-    if side == "server":
-        db = get_database("json")
-        client = server_start()
-    elif side == "client":
-        client = client_start()
-    elif side == "administrative_client":
-        print("not implemented")
+    client = Client()
+    client.db_connection.connect()
+    db = client.db_connection
+    client.main()
+
 
 if __name__ == "__main__":
     main()
 
+
 def exit():
     for thread in client.threads:
         thread.join()
-        if client is server_start:
-            client.exit()
+        client.exit()
     for thread in log.threads:
         thread.join()

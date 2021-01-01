@@ -2,8 +2,8 @@ import colorama
 from colorama import Fore, Style
 import time
 
+
 class Logger:
-    
     func = ""
 
     def __init__(self, func_in: str):
@@ -13,8 +13,9 @@ class Logger:
         str_level = get_str_level(level)
         colorama.init()
         color = get_level_color(level)
-        print(f'[{time.strftime("%H:%M:%S",time.localtime())}]{color}[{str_level}] [{self.func}] - {message}{Style.RESET_ALL}')
-    
+        print(
+            f'[{time.strftime("%H:%M:%S", time.localtime())}]{color}[{str_level}] [{self.func}] - {message}{Style.RESET_ALL}')
+
     def debug(self, message: str):
         self.log(message, 0)
 
@@ -30,6 +31,7 @@ class Logger:
     def critical(self, message: str):
         self.log(message, 4)
 
+
 def get_str_level(level: int) -> str:
     if level == 0:
         return "DEBUG"
@@ -44,6 +46,7 @@ def get_str_level(level: int) -> str:
     else:
         raise IndexError
 
+
 def get_level_color(level: int):
     if level == 0:
         return Fore.LIGHTYELLOW_EX
@@ -57,4 +60,3 @@ def get_level_color(level: int):
         return Fore.RED
     else:
         raise IndexError
-

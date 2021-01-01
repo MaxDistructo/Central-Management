@@ -4,3 +4,5 @@ port = ""
 
 server_ip = ""
 uninstall_password = ""
+
+side = ""

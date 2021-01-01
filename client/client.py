@@ -6,6 +6,8 @@ logger = Logger("Client")
 threads = list()
 
 class Client(common_client):
+    device_def = None
+
     def __init__(self):
         super().__init__()
         self.db_connection = db.connect(cfg.server_ip, cfg.username, cfg.password, cfg.port)
@@ -13,3 +15,6 @@ class Client(common_client):
     def main(self):
         super().main()
         logger.info("Client Main")
+
+    def install_program(self):
+
